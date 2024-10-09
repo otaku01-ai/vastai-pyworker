@@ -49,7 +49,7 @@ env | grep _ >> /etc/environment;
 
 if [ ! -d "$ENV_PATH" ]
 then
-    apt install -y python3.8-venv g++ ccache vim
+    apt install -y python3.10-venv g++ ccache vim
     echo "setting up venv"
     git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
     git checkout -b llama.cpp
