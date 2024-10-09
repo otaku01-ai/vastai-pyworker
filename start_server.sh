@@ -49,9 +49,11 @@ env | grep _ >> /etc/environment;
 
 if [ ! -d "$ENV_PATH" ]
 then
-    apt install -y python3.8-venv g++ ccache
+    apt install -y python3.8-venv g++ ccache vim
     echo "setting up venv"
     git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
+    git checkout -b llama.cpp
+    git pull origin llama.cpp
 
     python3 -m venv "$WORKSPACE_DIR/worker-env"
     source "$WORKSPACE_DIR/worker-env/bin/activate"
