@@ -52,13 +52,14 @@ then
     apt install -y python3.10-venv g++ ccache vim
     echo "setting up venv"
     git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
+    cd $SERVER_DIR
     git checkout -b llama.cpp
     git pull origin llama.cpp
 
     python3 -m venv "$WORKSPACE_DIR/worker-env"
     source "$WORKSPACE_DIR/worker-env/bin/activate"
 
-    pip install -r vast-pyworker/requirements.txt
+    pip install -r requirements.txt
 
     # Download model from Hugging Face
     huggingface-cli login --token $HF_TOKEN
