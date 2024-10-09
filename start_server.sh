@@ -26,7 +26,9 @@ function echo_var(){
 [ -z "$BACKEND" ] && echo "BACKEND must be set!" && exit 1
 [ -z "$MODEL_LOG" ] && echo "MODEL_LOG must be set!" && exit 1
 [ -z "$HF_TOKEN" ] && echo "HF_TOKEN must be set!" && exit 1
-[ "$BACKEND" = "sd3" ] && [ -z "$COMFY_MODEL" ] && echo "For sd3 backends, COMFY_MODEL must be set!" && exit 1
+[ -z "$MODEL_ID" ] && echo "MODEL_ID must be set!" && exit 1
+
+[ -z "$MODEL_VERSION" ] && MODEL_VERSION="main"
 
 
 echo "start_server.sh"
@@ -47,7 +49,7 @@ env | grep _ >> /etc/environment;
 
 if [ ! -d "$ENV_PATH" ]
 then
-    apt install -y python3.10-venv
+    apt install -y python3.10-venv g++ ccache
     echo "setting up venv"
     git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
 
@@ -55,6 +57,18 @@ then
     source "$WORKSPACE_DIR/worker-env/bin/activate"
 
     pip install -r vast-pyworker/requirements.txt
+
+    # Download model from Hugging Face
+    huggingface-cli login --token $HF_TOKEN
+    mkdir -p /workspace/models && huggingface-cli download $MODEL_ID model.gguf --revision $MODEL_VERSION --local-dir /workspace/models
+    mkdir -p /models && ln -s /workspace/models/model.gguf /models/otaku.gguf
+
+    # Download llama.cpp and compile
+    /usr/sbin/update-ccache-symlinks
+    echo 'export PATH="/usr/lib/ccache:$PATH"' | tee -a ~/.bashrc 
+    source ~/.bashrc && echo $PATH
+    cd /workspace && git clone https://github.com/ggerganov/llama.cpp.git
+    cd llama.cpp && make GGML_CUDA=1 -j `nproc`
 
     touch ~/.no_auto_tmux
 else
