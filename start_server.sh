@@ -72,7 +72,9 @@ then
     source ~/.bashrc && echo $PATH
     cd /workspace && git clone https://github.com/ggerganov/llama.cpp.git
     cd llama.cpp && make GGML_CUDA=1 -j `nproc`
+    ln -s /workspace/llama.cpp/llama-server /usr/bin/llama-server
 
+    source "$WORKSPACE_DIR/worker-env/bin/activate"
     touch ~/.no_auto_tmux
 else
     source "$WORKSPACE_DIR/worker-env/bin/activate"
