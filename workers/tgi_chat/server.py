@@ -14,7 +14,7 @@ from .data_types import InputData, ChatInputData
 MODEL_SERVER_URL = "http://0.0.0.0:5001"
 
 # This is the last log line that gets emitted once comfyui+extensions have been fully loaded
-MODEL_SERVER_START_LOG_MSG = '"message":"Connected","target":"text_generation_router"'
+MODEL_SERVER_START_LOG_MSG = 'main: model loaded'
 MODEL_SERVER_ERROR_LOG_MSGS = ["Error: WebserverFailed", "Error: DownloadError"]
 
 
@@ -117,7 +117,7 @@ backend = Backend(
     model_server_url=MODEL_SERVER_URL,
     model_log_file=os.environ["MODEL_LOG"],
     allow_parallel_requests=True,
-    benchmark_handler=GenerateHandler(benchmark_runs=3, benchmark_words=256),
+    benchmark_handler=ChatHandler(benchmark_runs=3, benchmark_words=256),
     log_actions=[
         (LogAction.ModelLoaded, MODEL_SERVER_START_LOG_MSG),
         (LogAction.Info, '"message":"Download'),

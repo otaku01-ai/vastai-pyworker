@@ -108,6 +108,17 @@ class ChatInputData:
             max_tokens=data["max_tokens"]
         )
 
+
+    @classmethod
+    def for_test(cls) -> "InputData":
+        messages = [{"role": "user", "content": " ".join(random.choices(WORD_LIST, k=int(250)))}]
+        return cls(
+            model="",
+            messages=messages,
+            stream=False,
+            max_tokens=1024
+        )
+
     def generate_payload_json(self) -> Dict[str, Any]:
         return dataclasses.asdict(self)
 
