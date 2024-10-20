@@ -111,7 +111,7 @@ class ChatInputData:
 
     @classmethod
     def for_test(cls) -> "InputData":
-        messages = [{"role": "user", "content": " ".join(random.choices(WORD_LIST, k=int(250)))}]
+        messages = [{"role": "user", "content": " ".join(random.choices(WORD_LIST, k=int(10)))}]
         return cls(
             model="/models/otaku.gguf",
             messages=messages,
