@@ -127,4 +127,5 @@ echo "launching PyWorker server"
 [ -e "$MODEL_LOG" ] && cat "$MODEL_LOG" >> "$MODEL_LOG.old" && : > "$MODEL_LOG"
 
 (python3 -m "workers.$BACKEND.server" |& tee -a "$PYWORKER_LOG") &
+(vllm serve $MODEL_DIR --dtype auto --served-model-name /models/otaku.gguf --enable-prefix-caching &>> $MODEL_LOG) &
 echo "launching PyWorker server done"
