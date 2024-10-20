@@ -52,7 +52,7 @@ if [ ! -d "$ENV_PATH" ]
 then
     apt install -y python3.10-venv g++ ccache vim
     echo "setting up venv"
-    git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
+    git clone https://github.com/otaku01-ai/vastai-pyworker.git "$SERVER_DIR"
     cd $SERVER_DIR
     git checkout -b vllm
     git pull origin vllm
