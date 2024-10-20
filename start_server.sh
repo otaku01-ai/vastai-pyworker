@@ -126,6 +126,7 @@ echo "launching PyWorker server"
 # from the run prior to reboot. past logs are saved in $MODEL_LOG.old for debugging only
 [ -e "$MODEL_LOG" ] && cat "$MODEL_LOG" >> "$MODEL_LOG.old" && : > "$MODEL_LOG"
 
-(python3 -m "workers.$BACKEND.server" |& tee -a "$PYWORKER_LOG") &
 (vllm serve $MODEL_DIR --dtype auto --served-model-name /models/otaku.gguf --enable-prefix-caching &>> $MODEL_LOG) &
+sleep 20
+(python3 -m "workers.$BACKEND.server" |& tee -a "$PYWORKER_LOG") &
 echo "launching PyWorker server done"
