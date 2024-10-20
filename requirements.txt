@@ -26,7 +26,7 @@ MarkupSafe==2.1.5
 multidict==6.0.5
 nltk==3.8.1
 Nuitka==2.3.11
-numpy==2.0.0
+numpy==1.26.4
 ordered-set==4.1.0
 packaging==24.1
 patchelf==0.17.2.1
