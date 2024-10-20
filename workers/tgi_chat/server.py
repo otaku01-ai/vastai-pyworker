@@ -11,10 +11,10 @@ from lib.server import start_server
 from .data_types import InputData, ChatInputData
 
 
-MODEL_SERVER_URL = "http://0.0.0.0:5001"
+MODEL_SERVER_URL = "http://0.0.0.0:8000"
 
 # This is the last log line that gets emitted once comfyui+extensions have been fully loaded
-MODEL_SERVER_START_LOG_MSG = 'main: model loaded'
+MODEL_SERVER_START_LOG_MSG = "INFO:     Uvicorn running on socket ('0.0.0.0', 8000) (Press CTRL+C to quit)"
 MODEL_SERVER_ERROR_LOG_MSGS = ["Error: WebserverFailed", "Error: DownloadError"]
 
 
