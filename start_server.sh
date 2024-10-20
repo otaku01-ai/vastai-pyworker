@@ -5,6 +5,7 @@ set -e -o pipefail
 WORKSPACE_DIR="${WORKSPACE_DIR:-/workspace}"
 
 SERVER_DIR="$WORKSPACE_DIR/vast-pyworker"
+MODEL_DIR="$WORKSPACE_DIR/models"
 ENV_PATH="$WORKSPACE_DIR/worker-env"
 DEBUG_LOG="$WORKSPACE_DIR/debug.log"
 PYWORKER_LOG="$WORKSPACE_DIR/pyworker.log"
@@ -53,8 +54,8 @@ then
     echo "setting up venv"
     git clone https://github.com/JadarTheObscurity/pyworker "$SERVER_DIR"
     cd $SERVER_DIR
-    git checkout -b llama.cpp
-    git pull origin llama.cpp
+    git checkout -b vllm
+    git pull origin vllm
 
     python3 -m venv "$WORKSPACE_DIR/worker-env"
     source "$WORKSPACE_DIR/worker-env/bin/activate"
@@ -63,16 +64,8 @@ then
 
     # Download model from Hugging Face
     huggingface-cli login --token $HF_TOKEN
-    mkdir -p /workspace/models && huggingface-cli download $MODEL_ID model.gguf --revision $MODEL_VERSION --local-dir /workspace/models
-    mkdir -p /models && ln -s /workspace/models/model.gguf /models/otaku.gguf
+    mkdir -p $MODEL_DIR && huggingface-cli download $MODEL_ID --revision $MODEL_VERSION --local-dir $MODEL_DIR
 
-    # Download llama.cpp and compile
-    /usr/sbin/update-ccache-symlinks
-    echo 'export PATH="/usr/lib/ccache:$PATH"' | tee -a ~/.bashrc 
-    source ~/.bashrc && echo $PATH
-    cd /workspace && git clone https://github.com/ggerganov/llama.cpp.git
-    cd llama.cpp && make GGML_CUDA=1 -j `nproc`
-    ln -s /workspace/llama.cpp/llama-server /usr/bin/llama-server
 
     source "$WORKSPACE_DIR/worker-env/bin/activate"
     touch ~/.no_auto_tmux
