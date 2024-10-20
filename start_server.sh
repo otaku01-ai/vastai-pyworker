@@ -64,7 +64,7 @@ then
 
     # Download model from Hugging Face
     huggingface-cli login --token $HF_TOKEN
-    mkdir -p $MODEL_DIR && huggingface-cli download $MODEL_ID --revision $MODEL_VERSION --local-dir $MODEL_DIR
+    mkdir -p $MODEL_DIR && huggingface-cli download $MODEL_ID --revision $MODEL_VERSION --local-dir $MODEL_DIR  --exclude "*.gguf"
 
 
     source "$WORKSPACE_DIR/worker-env/bin/activate"
